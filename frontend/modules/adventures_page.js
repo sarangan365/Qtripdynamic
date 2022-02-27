@@ -30,6 +30,31 @@ async function fetchAdventures(city) {
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  //console.log(adventures);
+  adventures.map((adventure,index) => {
+    var divElement = document.createElement("div");
+    divElement.className = "col-6 col-md-4 col-lg-3 mb-4";
+    divElement.innerHTML = `
+    <a href="detail/?adventure=${adventure.id}" id=${adventure.id}>
+    <div class="category-banner">${adventure.category}</div>
+    <div class="activity-card">
+    <img class="img-responsive" src="${adventure.image}" />
+      <div class="adventure-card-text w-100 text-md-center mt-2">
+      <div class="d-block d-md-flex justify-content-between flex-wrap pl-3 pr-3"
+        <h5>${adventure.name}</h5>
+        <p>&#x20B9;${adventure.costPerHead}</p>
+      </div>
+      <div class="d-block d-md-flex justify-content-between flex-wrap pl-3 pr-3"
+        <h5>Duration</h5>
+        <p>${adventure.duration} hours</p>
+      </div>
+      </div>
+    </div>
+  </a>
+    `;
+    document.getElementById("data").appendChild(divElement);
+  });
+
 
 }
 
