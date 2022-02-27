@@ -69,6 +69,19 @@ function filterByDuration(list, low, high) {
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list
+  let filteredList = [];
+  //console.log(list);
+  list.map(adv => {
+    if(adv.duration >= low && adv.duration <= high) {
+      filteredList.push(adv);
+      //console.log(adv.duration);
+    }
+  });
+    if(filteredList.length === 0) {
+      return list;
+    }
+    //console.log(filteredList);
+    return filteredList;
 
 }
 
@@ -83,10 +96,23 @@ function filterFunction(list, filters) {
   // TODO: MODULE_FILTERS
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
+  var filteredAdvByCategory = [];
+  categoryList.map((category) => {
+    list.map((key) => {
+      if (key.category === category) {
+        filteredAdvByCategory.push(key);
+      }
+    });
+  });
 
+  if(categoryList.length === 0) {
+    return list;
+  }
+  //console.log(filteredAdvByCategory);
+  return filteredAdvByCategory;
 
   // Place holder for functionality to work in the Stubs
-  return list;
+ 
 }
 
 //Implementation of localStorage API to save filters to local storage. This should get called everytime an onChange() happens in either of filter dropdowns
