@@ -37,7 +37,7 @@ function addAdventureToDOM(adventures) {
     divElement.innerHTML = `
     <a  class="activity-card" href="detail/?adventure=${adventure.id}" id=${adventure.id}>
     <div class="category-banner">${adventure.category}</div>
-    <img class="img-responsive" src="${adventure.image}" />
+    <img class="activity-card-image,img-responsive" src="${adventure.image}" />
       <div class="adventure-card-text w-100 text-md-center mt-2">
       <div class="d-block d-md-flex justify-content-between flex-wrap pl-3 pr-3"
         <h5>${adventure.name}</h5>
