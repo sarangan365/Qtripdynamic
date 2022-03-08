@@ -7,6 +7,7 @@ function getAdventureIdFromURL(search) {
 
   let adventureId = new URLSearchParams(search).get("adventure");
   return adventureId;
+
   // Place holder for functionality to work in the Stubs
   //return null;
 }
@@ -23,34 +24,28 @@ async function fetchAdventureDetails(adventureId) {
   }
 
   // Place holder for functionality to work in the Stubs
-  //return null;
+  return null;
 }
 
 //Implementation of DOM manipulation to add adventure details to DOM
 function addAdventureDetailsToDOM(adventure) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the details of the adventure to the HTML DOM
-  // step 1 to get the adventure name
-  // step 2 to get the subtitle 
-  // step 3 to get photos
-  
-  document.getElementById("adventure-name").innerHTML = adventure.name;
-  document.getElementById("adventure-subtitle").innerHTML = adventure.subtitle;
-  let divGallery = document.getElementById("photo-gallery");
-// method to loop and create new div to add photos
+    document.getElementById("adventure-name").innerHTML = adventure.name;
+    document.getElementById("adventure-subtitle").innerHTML = adventure.subtitle;
+    let divGallery = document.getElementById("photo-gallery");
 
-  adventure.images.map((advImage => {
-    let divImage = document.createElement("div");
-    divImage.className = "col-12";
-    divImage.setAttribute("id","imageGallery");
-    divImage.innerHTML = `
-      <img class="img-responsive activity-card-image" src=${advImage} />
-    `;
-    divGallery.appendChild(divImage)
-  }));
+    adventure.images.map((advImage => {
+      let divImage = document.createElement("div");
+      divImage.className = "col-12";
+      divImage.setAttribute("id","imageGallery");
+      divImage.innerHTML = `
+        <img class="img-responsive activity-card-image" src=${advImage} />
+      `;
+      divGallery.appendChild(divImage)
+    }));
 
-  document.getElementById("adventure-content").innerHTML = adventure.content;
-
+    document.getElementById("adventure-content").innerHTML = adventure.content;
 
 
 }
@@ -59,7 +54,6 @@ function addAdventureDetailsToDOM(adventure) {
 function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
-
   let iCount = 0;
   let divGallery = document.getElementById("photo-gallery");
   divGallery.innerHTML = `
@@ -103,34 +97,88 @@ function addBootstrapPhotoGallery(images) {
   //divGallery.appendChild(divParentCarousel);
 
 
+
 }
 
 //Implementation of conditional rendering of DOM based on availability
 function conditionalRenderingOfReservationPanel(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If the adventure is already reserved, display the sold-out message.
-
+  console.log(adventure);
+  if(adventure.available) {
+    document.getElementById("reservation-panel-sold-out").style.display = "none";
+    document.getElementById("reservation-panel-available").style.display = "block";
+    document.getElementById("reservation-person-cost").innerHTML = adventure.costPerHead;
+  } else {
+    document.getElementById("reservation-panel-sold-out").style.display = "block";
+    document.getElementById("reservation-panel-available").style.display = "none";
+  }
 }
 
 //Implementation of reservation cost calculation based on persons
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
-
+  let totalCost = adventure.costPerHead * persons;
+  document.getElementById("reservation-cost").innerHTML = totalCost;
 }
 
-//Implementation of reservation form submission
-function captureFormSubmit(adventure) {
+//Implementation of reservation form submission using JQuery
+function captureFormSubmitUsingJQuery(adventure) {
   // TODO: MODULE_RESERVATIONS
-  // 1. Capture the query details and make a POST API call using fetch() to make the reservation
+  // 1. Capture the query details and make a POST API call using JQuery to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
+  /*$("#myForm").submit((event) => {
+    event.preventDefault();
+
+    $.ajax({
+      url: `${config.backendEndpoint}/reservations/new`,
+      type: "POST",
+      dataType: "application/json",
+      data: $("#myForm").serialize() + "&adventure=" + adventure.id,
+      success: function(response) {
+        console.log(data);
+        window.alert("Success!");
+        window.location.reload();
+      },
+      error: function() {
+        window.alert("Failed!");
+      }
+
+    });
+  });*/
+
+  $("#myForm").on("submit", function (e) {
+    e.preventDefault();
+    var data = $(this).serialize() + "&adventure=" + adventure.id;
+    let url = config.backendEndpoint + "/reservations/new";
+    $.ajax({
+      url: url,
+      type: "POST",
+      //dataType: "application/json",
+      data: data,
+      success: function (response) {
+        console.log(response, data);
+        alert("Success!");
+        window.location.reload();
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        console.log(xhr, textStatus, errorThrown);
+        alert("Failed!");
+      },
+    });
+  });
 }
 
 //Implementation of success banner after reservation
 function showBannerIfAlreadyReserved(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If user has already reserved this adventure, show the reserved-banner, else don't
-
+  if(adventure.reserved) {
+    document.getElementById("reserved-banner").style.display = "block";
+  } else {
+    document.getElementById("reserved-banner").style.display = "none";
+  }
 }
 
 export {
@@ -139,7 +187,7 @@ export {
   addAdventureDetailsToDOM,
   addBootstrapPhotoGallery,
   conditionalRenderingOfReservationPanel,
-  captureFormSubmit,
+  captureFormSubmitUsingJQuery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
 };
