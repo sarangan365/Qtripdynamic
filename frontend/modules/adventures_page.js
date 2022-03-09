@@ -134,6 +134,7 @@ function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Store the filters as a String to localStorage
   window.localStorage.setItem("filters",JSON.stringify(filters));
+
   return true;
 }
 
