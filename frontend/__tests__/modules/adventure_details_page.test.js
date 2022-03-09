@@ -6,7 +6,7 @@ import {
   addBootstrapPhotoGallery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
-  captureFormSubmitUsingJQuery,
+  captureFormSubmit,
 } from "../../modules/adventure_details_page.js";
 require("jest-fetch-mock").enableMocks();
 
@@ -227,7 +227,9 @@ describe("Adventure Detail Page Tests", function () {
       "none"
     );
   });
-  it("captureFormSubmitUsingJQuery() - Makes a POST API call with correct request body", function () {
+  
+  it("captureFormSubmit() - Makes a POST API call with correct request body", function () 
+  {
     let adventure = {
       id: "6298356896",
       name: "Grand Dinyardlodge",
@@ -244,7 +246,7 @@ describe("Adventure Detail Page Tests", function () {
     };
     fetch.mockResponseOnce(JSON.stringify({ success: true }));
 
-    captureFormSubmitUsingJQuery(adventure);
+    captureFormSubmit(adventure);
 
     document.getElementById("myForm").submit();
 
