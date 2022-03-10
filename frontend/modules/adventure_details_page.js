@@ -127,54 +127,97 @@ function calculateReservationCostAndUpdateDOM(adventure, persons) {
 }
 
 //Implementation of reservation form submission using JQuery
-function captureFormSubmit(adventure,search) {
+function captureFormSubmit(adventure, search) {
   // TODO: MODULE_RESERVATIONS
   // 1. Capture the query details and make a POST API call using fetch() to make the reservation
   // 2. If the reservation is successful, show an alert with "Success!" and refresh the page. If the reservation fails, just show an alert with "Failed!".
+
   let id = adventure.id;
- 
   let url = config.backendEndpoint + "/reservations/new";
-  async function makeRequest(data) {
-    let result = await fetch(url, {
+  const  makeRequest  = async (data) => {
+     await fetch(url, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        },
-      body: JSON.stringify(data)
-    });
-    let response = await result.json();
-    return response;
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      //Then with the data from the response in JSON...
+      .then((data) => {
+        console.log("Success:", data);
+        alert("sucess!");
+        return response;
+      })
+
+      //Then with the error genereted...
+      .catch((error) => {
+        alert("failed!");
+        console.log("Error:", error);
+      });
+      return r;
   }
+
   let form = document.getElementById("myForm");
 
-  form.addEventListener("submit",(e,search)=>{
+  form.addEventListener("submit", (e, search) => {
     e.preventDefault();
     let name = form.elements["name"].value;
     let date = Date(form.elements["date"].value);
     let person = form.elements["person"].value;
     let adventure = id;
-    const data ={
+    const data = {
       name,
       date,
-      person, 
+      person,
       adventure,
-    }
-    console.log("data"+data);
+    };
+    console.log("data" + data);
 
     makeRequest(data).then((response) => {
-    alert("Success!")
       console.log("response", response);
     });
   });
-  // async function makeRequest (data){
-  //   let result=await fetch(url,{
+
+  //   let id = adventure.id;
+  //   let url = config.backendEndpoint + "/reservations/new";
+
+  // let id = adventure.id;
+
+  // let url = config.backendEndpoint + "/reservations/new";
+  // async function makeRequest(data) {
+  //   let result = await fetch(url, {
   //     method: "POST",
-  //         body: JSON.stringify(data)
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       },
+  //     body: JSON.stringify(data)
   //   });
   //   let response = await result.json();
-  //       return response;
+  //   alert("Success!")
+  //   return response;
   // }
+  // let form = document.getElementById("myForm");
 
+  // form.addEventListener("submit",(e,search)=>{
+  //   e.preventDefault();
+  // let name = form.elements["name"].value;
+  // let date = Date(form.elements["date"].value);
+  // let person = form.elements["person"].value;
+  // let adventure = id;
+  // const data ={
+  //   name,
+  //   date,
+  //   person,
+  //   adventure,
+  // }
+  //   console.log("data"+data);
+
+  //   makeRequest(data).then((response) => {
+  //   console.log("response", response);
+  //   });
+
+  //  });
 }
 
 //Implementation of success banner after reservation
