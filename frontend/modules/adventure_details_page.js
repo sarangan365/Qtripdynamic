@@ -147,15 +147,13 @@ function captureFormSubmit(adventure, search) {
       .then((data) => {
         console.log("Success:", data);
         alert("sucess!");
-        return response;
       })
 
       //Then with the error genereted...
       .catch((error) => {
-        alert("failed!");
+        //alert("failed!");
         console.log("Error:", error);
       });
-      return r;
   }
 
   let form = document.getElementById("myForm");
