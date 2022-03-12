@@ -146,12 +146,14 @@ function captureFormSubmit(adventure, search) {
       //Then with the data from the response in JSON...
       .then((data) => {
         console.log("Success:", data);
+        // console.log("response", response);
         alert("sucess!");
+        window.location.reload();
       })
 
       //Then with the error genereted...
       .catch((error) => {
-        //alert("failed!");
+        alert("failed!");
         console.log("Error:", error);
       });
   }
